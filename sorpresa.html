@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#a51f2a" />
+  <title>Que el destino elija ♡</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="lace-frame"></div>
+  <main class="page-shell fade-in">
+    <a class="back-link" href="categories.html">← volver a categorías</a>
+
+    <header class="page-header random-header">
+      <p class="eyebrow">para indecisos profesionales</p>
+      <h1 class="page-title">Que el destino elija</h1>
+      <p class="page-intro">Si has llegado hasta aquí, ya no tienes que pensar. Pulsa el botón y acepta tu destino ♡</p>
+    </header>
+
+    <section class="randomizer" aria-live="polite">
+      <div class="randomizer-deco">♡</div>
+      <p class="random-label" id="gift-category">una pequeña ayuda navideña</p>
+      <h2 class="random-title" id="gift-title">¿Qué me regalarás?</h2>
+      <p class="random-note" id="gift-note">Hay 16 posibilidades. Prometo no manipular el algoritmo.</p>
+
+      <div class="random-actions">
+        <button class="primary-button random-button" id="pick-button" type="button">Elegir un regalo ✦</button>
+        <a class="small-button random-link is-hidden" id="gift-link" target="_blank" rel="noopener">ver regalo ↗</a>
+        <a class="small-button random-link is-hidden" id="category-link">ver su categoría →</a>
+      </div>
+
+      <p class="random-hint" id="random-hint">puedes pulsar tantas veces como necesites… sospechoso, pero permitido</p>
+    </section>
+  </main>
+
+  <script>
+    const gifts = [
+      { category: 'Fancy', page: 'fancy.html', title: 'Tabis de tacón negro · Ulanka', note: 'Raritos, elegantes y muy fáciles de querer.', link: 'https://ulanka.com/en/collections/tabis-shoes-trend/products/bailarinas-tabi-con-tacon-bajo-ulk-kala' },
+      { category: 'Fancy', page: 'fancy.html', title: 'iPad Air 11\" · M4', note: 'El capricho tecnológico de la lista: 11 pulgadas, 128 GB, blanco estrella y Wi‑Fi.', link: 'https://www.apple.com/es/shop/buy-ipad/ipad-air/pantalla-de-11-pulgadas-128gb-blanco-estrella-wifi' },
+      { category: 'Fancy', page: 'fancy.html', title: 'Viaje a Berlín', note: 'Vuelos y alojamiento a medias :) Lo importante es ir juntos.', link: '' },
+      { category: 'Fancy', page: 'fancy.html', title: 'Jean Paul Gaultier · Scandal', note: 'Para oler increíble todo el día. Una apuesta bastante segura.', link: 'https://www.douglas.es/es/p/3001038303?variant=313508' },
+      { category: 'Fancy', page: 'fancy.html', title: 'Carretes de fotografía analógica · Fujifilm', note: 'Porque quedarse sin carrete cuando hay una foto bonita que hacer es un crimen.', link: '' },
+      { category: 'Fancy', page: 'fancy.html', title: 'Chaqueta de invierno · Uniqlo', note: 'Para sobrevivir al frío con dignidad.', link: 'https://www.uniqlo.com/es/es/products/E487594-000/00?colorDisplayCode=18&sizeDisplayCode=003' },
+
+      { category: 'Sentimentales', page: 'sentimentales.html', title: 'Carta escrita a mano', note: 'Papel, boli y cosas que normalmente se quedan sin decir ♡', link: '' },
+      { category: 'Sentimentales', page: 'sentimentales.html', title: 'Un dibujo de nosotros', note: 'En estilo libre. No tiene que ser perfecto: justo la gracia es que sea tuyo.', link: '' },
+      { category: 'Sentimentales', page: 'sentimentales.html', title: 'Juego de búsqueda del tesoro', note: 'Pistas, notitas, recuerdos y un premio final. Cuanto más dramático, mejor.', link: '' },
+      { category: 'Sentimentales', page: 'sentimentales.html', title: 'Mis chuches favoritas', note: 'Leche en polvo, Kit Kat de matcha y cualquier otra obsesión comestible.', link: '' },
+
+      { category: 'Random', page: 'random.html', title: 'CD · El Madrileño — C. Tangana', note: 'Porque los discos físicos siguen teniendo algo especial.', link: 'https://www.fnac.es/a8030984/C-Tangana-El-madrileno-Disco' },
+      { category: 'Random', page: 'random.html', title: 'Un anillo promesa', note: 'No tiene que ser ese exacto. La idea es el gesto y elegir uno con sentido para nosotros.', link: 'https://www.swarovski.com/es-ES/s-swarovski-promise-ring-guide' },
+      { category: 'Random', page: 'random.html', title: 'Entradas de concierto', note: 'De algún cantante que nos guste a los dos. Una noche nuestra ya reservada.', link: '' },
+      { category: 'Random', page: 'random.html', title: 'Pintalabios · NYX', note: 'Pequeño, útil y de esos regalos que siempre hacen ilusión.', link: 'https://www.douglas.es/es/p/5010897017?variant=1076621' },
+      { category: 'Random', page: 'random.html', title: 'Pinzas para el pelo', note: 'Con formas raras y bonitas: teléfono antiguo, bola disco, vinilo…', link: 'https://es.shein.com/1-Piece-Personalized-Acetate-Antique-Phone-Disco-Ball-Vinyl-Record-Hair-Claw-Clip-Personalized-Women-s-Hair-Clip-Hair-Accessories-p-41545069.html' },
+      { category: 'Random', page: 'random.html', title: 'Bolso · Uniqlo', note: 'Dos opciones, porque una sola decisión era demasiado pedir.', link: 'https://www.uniqlo.com/es/es/products/E481663-000/00?colorDisplayCode=37&sizeDisplayCode=999' }
+    ];
+
+    const category = document.getElementById('gift-category');
+    const title = document.getElementById('gift-title');
+    const note = document.getElementById('gift-note');
+    const pickButton = document.getElementById('pick-button');
+    const giftLink = document.getElementById('gift-link');
+    const categoryLink = document.getElementById('category-link');
+    const hint = document.getElementById('random-hint');
+    let previousIndex = -1;
+
+    function pickGift() {
+      let index;
+      do {
+        index = Math.floor(Math.random() * gifts.length);
+      } while (gifts.length > 1 && index === previousIndex);
+      previousIndex = index;
+
+      const gift = gifts[index];
+      category.textContent = '✦ ' + gift.category + ' ✦';
+      title.textContent = gift.title;
+      note.textContent = gift.note;
+      categoryLink.href = gift.page;
+      categoryLink.textContent = 'ver en ' + gift.category.toLowerCase() + ' →';
+      categoryLink.classList.remove('is-hidden');
+
+      if (gift.link) {
+        giftLink.href = gift.link;
+        giftLink.classList.remove('is-hidden');
+      } else {
+        giftLink.classList.add('is-hidden');
+        giftLink.removeAttribute('href');
+      }
+
+      pickButton.textContent = 'Otra vez ✦';
+      hint.textContent = 'el universo ha hablado. pero puedes pedir una segunda opinión…';
+
+      const card = document.querySelector('.randomizer');
+      card.classList.remove('random-pop');
+      void card.offsetWidth;
+      card.classList.add('random-pop');
+    }
+
+    pickButton.addEventListener('click', pickGift);
+  </script>
+</body>
+</html>
